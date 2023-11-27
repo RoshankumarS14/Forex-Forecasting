@@ -1,0 +1,10 @@
+statsmodels
+MetaTrader5
+numpy
+pandas
+datetime
+streamlit
+pandas-profiling
+streamlit-pandas-profiling
+seaborn
+matplotlib
