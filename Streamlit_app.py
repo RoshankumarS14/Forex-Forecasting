@@ -1,5 +1,4 @@
 import streamlit as st
-import MetaTrader5 as mt5
 from Predictions import get_predictions,get_data
 import pandas as pd
 import numpy as np
