@@ -1,5 +1,4 @@
 statsmodels
-MetaTrader5
 numpy
 pandas
 datetime
@@ -8,3 +7,6 @@ pandas-profiling
 streamlit-pandas-profiling
 seaborn
 matplotlib
+requests
+pmdarima
+tensorflow
