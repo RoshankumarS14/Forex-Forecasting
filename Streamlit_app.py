@@ -1,5 +1,5 @@
 import streamlit as st
-from Predictions import get_predictions_ARIMA,get_predictions_LSTM,get_predictions_prophet,get_data
+from Predictions import get_predictions_ARIMA,get_predictions_LSTM,get_data
 import pandas as pd
 import numpy as np
 import pandas_profiling
