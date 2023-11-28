@@ -87,78 +87,78 @@ def get_predictions_ARIMA(currency_pair,timeframe,fine_tuning_method,API_KEY):
 
 #     return forecast_df["yhat"]
 
-# def get_predictions_LSTM(currency_pair,timeframe,API_KEY):
+def get_predictions_LSTM(currency_pair,timeframe,API_KEY):
 
-#     time_freq_dict = {
-#     "1 Min": "T",
-#     "5 Min": "5T",
-#     "15 Min": "15T",
-#     "30 Min": "30T",
-#     "1 Hour": "H",
-#     "4 Hour": "4H",
-#     "1 Day": "D",
-#     "1 Week": "W",
-#     "1 Month": "M"}
+    time_freq_dict = {
+    "1 Min": "T",
+    "5 Min": "5T",
+    "15 Min": "15T",
+    "30 Min": "30T",
+    "1 Hour": "H",
+    "4 Hour": "4H",
+    "1 Day": "D",
+    "1 Week": "W",
+    "1 Month": "M"}
 
-#     df = get_data(currency_pair,timeframe,API_KEY)
+    df = get_data(currency_pair,timeframe,API_KEY)
 
-#     # Initialize Min-Max Scaler
-#     scaler = MinMaxScaler()
+    # Initialize Min-Max Scaler
+    scaler = MinMaxScaler()
 
-#     target = pd.DataFrame(data=df["Close"],columns=["Close"])
+    target = pd.DataFrame(data=df["Close"],columns=["Close"])
 
-#     # Scale the target variable using the scaler
-#     target["Scaled Data"] = scaler.fit_transform(target[["Close"]])
+    # Scale the target variable using the scaler
+    target["Scaled Data"] = scaler.fit_transform(target[["Close"]])
 
-#     X=[]
-#     y=[]
-#     # Extract 100 records as independent values and 101st record as target value over each iteration
-#     for i in range(len(target)-100):
-#         X.append(list(target.iloc[i:i+100,1]))
-#         y.append(target.iloc[i+100,1])
+    X=[]
+    y=[]
+    # Extract 100 records as independent values and 101st record as target value over each iteration
+    for i in range(len(target)-100):
+        X.append(list(target.iloc[i:i+100,1]))
+        y.append(target.iloc[i+100,1])
 
-#     # Initialize a sequential model using LSTM algorithm
-#     model=Sequential()
-#     model.add(LSTM(50,return_sequences=True,input_shape=(100,1)))
-#     model.add(LSTM(50,return_sequences=True))
-#     model.add(LSTM(50))
-#     model.add(Dense(1))
-#     model.compile(loss='mean_squared_error',optimizer='adam')
+    # Initialize a sequential model using LSTM algorithm
+    model=Sequential()
+    model.add(LSTM(50,return_sequences=True,input_shape=(100,1)))
+    model.add(LSTM(50,return_sequences=True))
+    model.add(LSTM(50))
+    model.add(Dense(1))
+    model.compile(loss='mean_squared_error',optimizer='adam')
 
-#     # Train model using train and test data
-#     model.fit(X,y,validation_data=(X,y),epochs=100,batch_size=64,verbose=1)
+    # Train model using train and test data
+    model.fit(X,y,validation_data=(X,y),epochs=100,batch_size=64,verbose=1)
 
-#     # Store input values of prediction
-#     predict_input = target.iloc[-100:,1].values.tolist()
-#     # Create empty list to store output values of prediction
-#     predict_output = []
-#     # Create list to store both input and output data
-#     predict_data = predict_input.copy()
+    # Store input values of prediction
+    predict_input = target.iloc[-100:,1].values.tolist()
+    # Create empty list to store output values of prediction
+    predict_output = []
+    # Create list to store both input and output data
+    predict_data = predict_input.copy()
 
-#     # Iterate for loop to predict prices of 30 successive days
-#     for i in range(30):
-#         # Pass 100 values as input
-#         step_input = predict_data[-100:]
-#         # Predict 101st value using developed model
-#         step_output = model.predict([list(step_input)],verbose=0).reshape(1)
-#         # Add the predicted value to the input value
-#         predict_data.extend(step_output)
-#         # Store the output values in a list
-#         predict_output.extend(step_output)
+    # Iterate for loop to predict prices of 30 successive days
+    for i in range(30):
+        # Pass 100 values as input
+        step_input = predict_data[-100:]
+        # Predict 101st value using developed model
+        step_output = model.predict([list(step_input)],verbose=0).reshape(1)
+        # Add the predicted value to the input value
+        predict_data.extend(step_output)
+        # Store the output values in a list
+        predict_output.extend(step_output)
 
-#     # Transform output data
-#     predicted = scaler.inverse_transform(np.array(predict_output).reshape(-1,1)).reshape(-1)
-#     forecasted = np.concatenate([df["Close"].values,predicted])
-#     difference = len(forecasted)-len(df)
-#     fill = [np.nan for i in range(difference)]
-#     actual = np.concatenate([df["Close"].values,fill])
+    # Transform output data
+    predicted = scaler.inverse_transform(np.array(predict_output).reshape(-1,1)).reshape(-1)
+    forecasted = np.concatenate([df["Close"].values,predicted])
+    difference = len(forecasted)-len(df)
+    fill = [np.nan for i in range(difference)]
+    actual = np.concatenate([df["Close"].values,fill])
 
-#     df_forecast = pd.DataFrame({"Predicted":forecasted,"Actual":actual})
-#     new_idx = pd.date_range(df.index[-1], periods=31, freq=time_freq_dict[timeframe])[1:]
-#     idx = np.concatenate([df.index,new_idx])
-#     df_forecast.index = idx
-#     st.dataframe(df_forecast)
-#     return df_forecast
+    df_forecast = pd.DataFrame({"Predicted":forecasted,"Actual":actual})
+    new_idx = pd.date_range(df.index[-1], periods=31, freq=time_freq_dict[timeframe])[1:]
+    idx = np.concatenate([df.index,new_idx])
+    df_forecast.index = idx
+    st.dataframe(df_forecast)
+    return df_forecast
 
 def get_data(currency_pair,timeframe,API_KEY):
     
