@@ -42,7 +42,7 @@ with form:
         method = st.radio("Select Forecasting method:",["ARIMA","Prophet","LSTM"])
         fine_tuning_methods = ["None","PmdArima","GridSearchCV"]
         fine_tuning = st.radio("Which fine tuning method you would like to use for ARIMA?",fine_tuning_methods,horizontal=True,index=0)
-        API_KEY = st.text_input("Enter your OpenAI API Key:", placeholder="sk-XXXX", type='password')
+        API_KEY = st.text_input("Enter your Alpha Advantage API Key:", placeholder="sk-XXXX", type='password')
         submitted = st.form_submit_button("Forecast!")
 
 
