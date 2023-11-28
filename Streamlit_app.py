@@ -21,8 +21,6 @@ with form:
     st.title("Forex Forecasting")
     # Generate quiz
     st.write("""
-    Ever looked a forex chart and wondered how well you understood its trend? Here's a fun twist: Instead of just looking at chart, come to **Forex Forecasting** and predict the prices!
-
     **How does it work?** 🤔
     1. Select the currency pair.
     2. Select the timeframe in which you want to trade.
