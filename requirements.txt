@@ -3,7 +3,7 @@ numpy
 pandas
 datetime
 streamlit
-pandas-profiling
+ydata-profiling
 streamlit-pandas-profiling
 seaborn
 matplotlib
