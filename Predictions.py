@@ -155,7 +155,7 @@ def get_predictions_LSTM(currency_pair,timeframe,API_KEY):
 
     df_forecast = pd.DataFrame({"Predicted":forecasted,"Actual":actual})
     new_idx = pd.date_range(df.index[-1], periods=31, freq=time_freq_dict[timeframe])[1:]
-    idx = np.concatenate([df.index,new_idx])
+    idx = np.concatenate([pd.to_datetime(df.index),new_idx])
     df_forecast.index = idx
     st.dataframe(df_forecast)
     return df_forecast
